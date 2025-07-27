@@ -1,5 +1,6 @@
 using EventBooking.API.Interfaces;
 using EventBooking.API.Models;
+using FluentValidation;
 using MediatR;
 
 namespace EventBooking.API.Features.Events.Commands;
@@ -43,7 +44,7 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Eve
                 AvailableSeats = request.TotalSeats,
                 Price = request.Price,
                 CreatedAt = DateTime.UtcNow,
-                CreatedBy = Guid.NewGuid() // This should come from authenticated user context
+                CreatedBy = Guid.Parse("2dff81ac-7eb5-40d6-b661-1b8734295043") // This should come from authenticated user context
             };
 
             var result = await _eventRepository.AddAsync(@event);
@@ -55,5 +56,36 @@ public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand, Eve
             _logger.LogError(ex, "Error creating event");
             throw;
         }
+    }
+}
+
+public class CreateEventCommandValidator : AbstractValidator<CreateEventCommand>
+{
+    public CreateEventCommandValidator()
+    {
+        RuleFor(x => x.Title)
+            .NotEmpty()
+            .MaximumLength(200);
+
+        RuleFor(x => x.Description)
+            .NotEmpty();
+
+        RuleFor(x => x.StartDate)
+            .NotEmpty()
+            .GreaterThan(DateTime.UtcNow);
+
+        RuleFor(x => x.EndDate)
+            .NotEmpty()
+            .GreaterThan(x => x.StartDate);
+
+        RuleFor(x => x.VenueName)
+            .NotEmpty()
+            .MaximumLength(200);
+
+        RuleFor(x => x.TotalSeats)
+            .GreaterThan(0);
+
+        RuleFor(x => x.Price)
+            .GreaterThanOrEqualTo(0);
     }
 }

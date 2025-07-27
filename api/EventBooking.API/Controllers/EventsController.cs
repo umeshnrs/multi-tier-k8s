@@ -26,7 +26,9 @@ public class EventsController : ControllerBase
     public async Task<ActionResult<PagedResponse<EventDto>>> GetEvents(
         [FromQuery] string? searchTerm,
         [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 10)
+        [FromQuery] int pageSize = 10,
+        [FromQuery] OrderByField orderBy = OrderByField.StartDate,
+        [FromQuery] OrderDirection orderDirection = OrderDirection.Ascending)
     {
         if (pageNumber < 1)
             return BadRequest("Page number must be greater than 0");
@@ -39,7 +41,9 @@ public class EventsController : ControllerBase
         {
             SearchTerm = searchTerm,
             PageNumber = pageNumber,
-            PageSize = pageSize
+            PageSize = pageSize,
+            OrderBy = orderBy,
+            OrderDirection = orderDirection
         };
 
         var result = await _mediator.Send(query);

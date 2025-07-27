@@ -5,11 +5,25 @@ using MediatR;
 
 namespace EventBooking.API.Features.Events.Queries;
 
+public enum OrderByField
+{
+    StartDate,
+    CreatedAt
+}
+
+public enum OrderDirection
+{
+    Ascending,
+    Descending
+}
+
 public record GetEventsQuery : IRequest<PagedResponse<Event>>
 {
     public string? SearchTerm { get; init; }
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 10;
+    public OrderByField OrderBy { get; init; } = OrderByField.StartDate;
+    public OrderDirection OrderDirection { get; init; } = OrderDirection.Ascending;
 }
 
 public class GetEventsQueryHandler : IRequestHandler<GetEventsQuery, PagedResponse<Event>>
@@ -45,6 +59,18 @@ public class GetEventsQueryHandler : IRequestHandler<GetEventsQuery, PagedRespon
                 e.VenueName.ToLower().Contains(searchTerm)
             );
         }
+
+        // Apply ordering
+        query = request.OrderBy switch
+        {
+            OrderByField.StartDate => request.OrderDirection == OrderDirection.Ascending
+                ? query.OrderBy(e => e.StartDate)
+                : query.OrderByDescending(e => e.StartDate),
+            OrderByField.CreatedAt => request.OrderDirection == OrderDirection.Ascending
+                ? query.OrderBy(e => e.CreatedAt)
+                : query.OrderByDescending(e => e.CreatedAt),
+            _ => query.OrderBy(e => e.StartDate) // Default ordering
+        };
 
         // Get total count before pagination
         var totalCount = query.Count();

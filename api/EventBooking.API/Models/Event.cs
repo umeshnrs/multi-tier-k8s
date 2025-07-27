@@ -13,4 +13,5 @@ public class Event
     public decimal Price { get; set; }
     public DateTime CreatedAt { get; set; }
     public Guid CreatedBy { get; set; }
+    public bool IsDeleted { get; set; } = false;
 }

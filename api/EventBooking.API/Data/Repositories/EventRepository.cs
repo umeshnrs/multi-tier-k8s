@@ -15,12 +15,16 @@ public class EventRepository : IEventRepository
 
     public async Task<IEnumerable<Event>> GetAllAsync()
     {
-        return await _context.Events.ToListAsync();
+        return await _context.Events
+            .Where(e => !e.IsDeleted)
+            .ToListAsync();
     }
 
     public async Task<Event?> GetByIdAsync(Guid id)
     {
-        return await _context.Events.FindAsync(id);
+        return await _context.Events
+            .Where(e => !e.IsDeleted)
+            .FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task<Event> AddAsync(Event entity)
@@ -38,18 +42,18 @@ public class EventRepository : IEventRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        var entity = await GetByIdAsync(id);
+        var entity = await _context.Events.FindAsync(id);
         if (entity != null)
         {
-            _context.Events.Remove(entity);
-            await _context.SaveChangesAsync();
+            entity.IsDeleted = true;
+            await UpdateAsync(entity);
         }
     }
 
     public async Task<IEnumerable<Event>> GetUpcomingEventsAsync()
     {
         return await _context.Events
-            .Where(e => e.StartDate > DateTime.UtcNow)
+            .Where(e => !e.IsDeleted && e.StartDate > DateTime.UtcNow)
             .OrderBy(e => e.StartDate)
             .ToListAsync();
     }
