@@ -5,7 +5,7 @@ import { useForm, useField } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRouter } from 'vue-router'
 import { useEvents } from '../../../composable/useEvents'
-import type { EventFormData } from '../types'
+import type { EventFormData } from '../types/index'
 
 interface Props {
   id?: string

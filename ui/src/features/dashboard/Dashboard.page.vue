@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import type { Event } from '../events/types'
 import { useEvents } from '../../composable/useEvents'
 import { formatDate } from '../../utils/formatters'
 
@@ -209,22 +208,22 @@ onMounted(() => {
                     <div class="ml-4">
                       <span
                         :class="[
-                          (event as Event).availableSeats > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                          event.availableSeats > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
                           'px-2.5 py-0.5 rounded-full text-xs font-medium'
                         ]"
                       >
-                        {{ (event as Event).availableSeats }} seats left
+                        {{ event.availableSeats }} seats left
                       </span>
                     </div>
                   </div>
                   <div class="mt-2">
                     <p class="text-sm text-gray-500">
-                      {{ (event as Event).venueName }}
+                      {{ event.venueName }}
                     </p>
                     <div class="mt-1 flex items-center text-xs text-gray-500">
-                      <span>{{ formatDate((event as Event).startDate) }}</span>
+                      <span>{{ formatDate(event.startDate) }}</span>
                       <span class="mx-2">•</span>
-                      <span>{{ formatDate((event as Event).endDate) }}</span>
+                      <span>{{ formatDate(event.endDate) }}</span>
                     </div>
                   </div>
                 </div>

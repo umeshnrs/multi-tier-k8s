@@ -1,28 +1,20 @@
 <script setup lang="ts">
-import type { Event } from '../types'
+import type { Event } from '../types/index'
 import { formatDate, formatPrice } from '../../../utils/formatters'
 
-interface Props {
+const props = defineProps<{
   event: Event
   getAvailabilityColor: (total: number, available: number) => string
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<{
-  (e: 'edit', id: string): void
-  (e: 'delete', id: string): void
 }>()
 
+const emit = defineEmits(['edit', 'delete'])
+
 const handleEdit = () => {
-  if (props.event.id) {
-    emit('edit', props.event.id)
-  }
+  emit('edit', props.event.id)
 }
 
 const handleDelete = () => {
-  if (props.event.id) {
-    emit('delete', props.event.id)
-  }
+  emit('delete', props.event.id)
 }
 </script>
 
