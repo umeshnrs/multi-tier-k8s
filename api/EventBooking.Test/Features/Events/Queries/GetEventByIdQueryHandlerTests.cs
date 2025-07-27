@@ -1,11 +1,11 @@
-using Moq;
-using FluentAssertions;
 using EventBooking.API.Features.Events.Queries;
-using Microsoft.Extensions.Logging;
 using EventBooking.API.Interfaces;
 using EventBooking.API.Models;
+using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using Moq;
 
-namespace EventBooking.API.Tests.Features.Events.Queries;
+namespace EventBooking.Tests.Features.Events.Queries;
 
 public class GetEventByIdQueryHandlerTests
 {

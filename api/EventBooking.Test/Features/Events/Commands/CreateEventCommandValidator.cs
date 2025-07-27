@@ -60,7 +60,7 @@ public class CreateEventCommandHandlerTests
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(createdEvent, options => 
+        result.Should().BeEquivalentTo(createdEvent, options =>
             options.ComparingByMembers<Event>());
 
         _mockEventRepository.Verify(x => x.AddAsync(It.Is<Event>(e =>
@@ -132,9 +132,9 @@ public class CreateEventCommandValidatorTests
     public async Task Validate_StartDateInPast_HasCustomError()
     {
         // Arrange
-        var command = new CreateEventCommand 
-        { 
-            StartDate = DateTime.UtcNow.AddDays(-1) 
+        var command = new CreateEventCommand
+        {
+            StartDate = DateTime.UtcNow.AddDays(-1)
         };
 
         // Act

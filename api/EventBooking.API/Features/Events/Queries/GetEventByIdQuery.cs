@@ -1,6 +1,6 @@
-using MediatR;
-using EventBooking.API.Models;
 using EventBooking.API.Interfaces;
+using EventBooking.API.Models;
+using MediatR;
 
 namespace EventBooking.API.Features.Events.Queries;
 
@@ -24,7 +24,7 @@ public class GetEventByIdQueryHandler : IRequestHandler<GetEventByIdQuery, Event
         try
         {
             var @event = await _eventRepository.GetByIdAsync(request.Id);
-            
+
             if (@event == null)
             {
                 _logger.LogWarning("Event not found: {EventId}", request.Id);

@@ -1,4 +1,5 @@
 using EventBooking.API.Controllers;
+using EventBooking.API.Exceptions;
 using EventBooking.API.Features.Events.Commands;
 using EventBooking.API.Features.Events.Dtos;
 using EventBooking.API.Models;
@@ -9,7 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace EventBooking.API.Tests;
+namespace EventBooking.Tests.Controllers;
+
 public class EventsControllerTests
 {
     private readonly Mock<IMediator> _mockMediator;
@@ -65,7 +67,7 @@ public class EventsControllerTests
 
         result.ActionName.Should().Be(nameof(EventsController.GetEvent));
         result.RouteValues!["id"].Should().Be(createdEvent.Id);
-        
+
         returnValue.Should().NotBeNull();
         returnValue.Title.Should().Be(command.Title);
         returnValue.Description.Should().Be(command.Description);
@@ -148,5 +150,120 @@ public class EventsControllerTests
                 It.IsAny<Exception>(),
                 It.Is<Func<It.IsAnyType, Exception?, string>>((v, t) => true)),
             Times.Once);
+    }
+    [Fact]
+    public async Task UpdateEvent_WithMatchingIds_ReturnsOkResult()
+    {
+        // Arrange
+        var eventId = Guid.NewGuid();
+        var command = new UpdateEventCommand { Id = eventId };
+        var updatedEvent = new Event { Id = eventId };
+
+        _mockMediator.Setup(m => m.Send(command, default))
+            .ReturnsAsync(updatedEvent);
+
+        // Act
+        var result = await _controller.UpdateEvent(eventId, command);
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<EventDto>(okResult.Value);
+        Assert.Equal(eventId, returnValue.Id);
+    }
+
+    [Fact]
+    public async Task UpdateEvent_WithMismatchedIds_ReturnsBadRequest()
+    {
+        // Arrange
+        var eventId = Guid.NewGuid();
+        var command = new UpdateEventCommand { Id = Guid.NewGuid() };
+
+        // Act
+        var result = await _controller.UpdateEvent(eventId, command);
+
+        // Assert
+        Assert.IsType<BadRequestObjectResult>(result.Result);
+    }
+
+    [Fact]
+    public async Task UpdateEvent_WhenEventNotFound_ReturnsNotFound()
+    {
+        // Arrange
+        var eventId = Guid.NewGuid();
+        var command = new UpdateEventCommand { Id = eventId };
+
+        _mockMediator.Setup(m => m.Send(command, default))
+            .ThrowsAsync(new NotFoundException($"Event with ID {eventId} not found"));
+
+        // Act
+        var result = await _controller.UpdateEvent(eventId, command);
+
+        // Assert
+        Assert.IsType<NotFoundObjectResult>(result.Result);
+    }
+
+    [Fact]
+    public async Task UpdateEvent_WhenValidationFails_ReturnsBadRequest()
+    {
+        // Arrange
+        var eventId = Guid.NewGuid();
+        var command = new UpdateEventCommand { Id = eventId };
+
+        _mockMediator.Setup(m => m.Send(command, default))
+            .ThrowsAsync(new ValidationException("Validation failed"));
+
+        // Act
+        var result = await _controller.UpdateEvent(eventId, command);
+
+        // Assert
+        Assert.IsType<BadRequestObjectResult>(result.Result);
+    }
+
+    [Fact]
+    public async Task DeleteEvent_WhenEventExists_ReturnsNoContent()
+    {
+        // Arrange
+        var eventId = Guid.NewGuid();
+
+        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteEventCommand>(), default))
+            .ReturnsAsync(true);
+
+        // Act
+        var result = await _controller.DeleteEvent(eventId);
+
+        // Assert
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public async Task DeleteEvent_WhenEventNotFound_ReturnsNotFound()
+    {
+        // Arrange
+        var eventId = Guid.NewGuid();
+
+        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteEventCommand>(), default))
+            .ReturnsAsync(false);
+
+        // Act
+        var result = await _controller.DeleteEvent(eventId);
+
+        // Assert
+        Assert.IsType<NotFoundResult>(result);
+    }
+
+    [Fact]
+    public async Task DeleteEvent_WhenExceptionOccurs_ReturnsBadRequest()
+    {
+        // Arrange
+        var eventId = Guid.NewGuid();
+
+        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteEventCommand>(), default))
+            .ThrowsAsync(new Exception("Something went wrong"));
+
+        // Act
+        var result = await _controller.DeleteEvent(eventId);
+
+        // Assert
+        Assert.IsType<BadRequestObjectResult>(result);
     }
 }

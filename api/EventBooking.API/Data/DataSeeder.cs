@@ -14,113 +14,99 @@ public static class DataSeeder
                 new Event
                 {
                     Id = Guid.NewGuid(),
-                    Title = "Tech Conference 2025",
-                    Description = "Annual technology conference featuring the latest in AI and cloud computing",
-                    StartDate = DateTime.UtcNow.AddDays(-30),
-                    EndDate = DateTime.UtcNow.AddDays(600),
-                    VenueName = "Tech Convention Center",
-                    TotalSeats = 1000,
-                    AvailableSeats = 1000,
-                    Price = 299.99M,
-                    CreatedAt = DateTime.UtcNow,
-                    CreatedBy = createdBy
-                },
-                new Event
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Music Festival 2025",
-                    Description = "Three days of non-stop music featuring top artists from around the world",
-                    StartDate = DateTime.UtcNow.AddDays(-45),
-                    EndDate = DateTime.UtcNow.AddDays(470),
-                    VenueName = "Central Park",
-                    TotalSeats = 5000,
-                    AvailableSeats = 5000,
-                    Price = 199.99M,
-                    CreatedAt = DateTime.UtcNow,
-                    CreatedBy = createdBy
-                },
-                new Event
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Food & Wine Expo 2025",
-                    Description = "Explore culinary delights and wine tasting from renowned chefs",
-                    StartDate = DateTime.UtcNow.AddDays(15),
-                    EndDate = DateTime.UtcNow.AddDays(16),
-                    VenueName = "Grand Hotel",
+                    Title = "Web Development Summit 2024",
+                    Description = "Join industry experts for an intensive two-day conference covering the latest in web development, including React, Vue, Node.js, and cloud architecture. Network with leading developers and participate in hands-on workshops.",
+                    StartDate = DateTime.Parse("2024-06-15T09:00:00").ToUniversalTime(),
+                    EndDate = DateTime.Parse("2024-06-16T17:00:00").ToUniversalTime(),
+                    VenueName = "Tech Innovation Center",
                     TotalSeats = 500,
-                    AvailableSeats = 500,
-                    Price = 149.99M,
-                    CreatedAt = DateTime.UtcNow,
-                    CreatedBy = createdBy
-                },
-                new Event
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Business Leadership Summit 2025",
-                    Description = "Connect with industry leaders and learn about future business trends",
-                    StartDate = DateTime.UtcNow.AddDays(60),
-                    EndDate = DateTime.UtcNow.AddDays(619),
-                    VenueName = "Business Center",
-                    TotalSeats = 300,
-                    AvailableSeats = 300,
-                    Price = 499.99M,
-                    CreatedAt = DateTime.UtcNow,
-                    CreatedBy = createdBy
-                },
-                new Event
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Art Exhibition 2025",
-                    Description = "Explore the latest in contemporary art and design",
-                    StartDate = DateTime.UtcNow.AddDays(75),
-                    EndDate = DateTime.UtcNow.AddDays(760),
-                    VenueName = "Art Gallery",
-                    TotalSeats = 200,
-                    AvailableSeats = 200,
-                    Price = 19.99M,
-                    CreatedAt = DateTime.UtcNow,
-                    CreatedBy = createdBy
-                },
-                new Event
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Fashion Week 2025",
-                    Description = "Explore the latest in fashion and design",
-                    StartDate = DateTime.UtcNow.AddDays(90),
-                    EndDate = DateTime.UtcNow.AddDays(910),
-                    VenueName = "Fashion Center",
-                    TotalSeats = 1000,
-                    AvailableSeats = 1000,
-                    Price = 499.99M,
-                    CreatedAt = DateTime.UtcNow,
-                    CreatedBy = createdBy
-                },
-                new Event
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Sales Conference 2025",
-                    Description = "Annual technology conference featuring the latest in AI and cloud computing",
-                    StartDate = DateTime.UtcNow.AddDays(30),
-                    EndDate = DateTime.UtcNow.AddDays(32),
-                    VenueName = "Tech Convention Center",
-                    TotalSeats = 1000,
-                    AvailableSeats = 1000,
+                    AvailableSeats = 127,
                     Price = 599.99M,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.Parse("2024-01-15T08:00:00").ToUniversalTime(),
                     CreatedBy = createdBy
                 },
                 new Event
                 {
                     Id = Guid.NewGuid(),
-                    Title = "Marketing Conference 2025",
-                    Description = "Annual technology conference featuring the latest in AI and cloud computing",
-                    StartDate = DateTime.UtcNow.AddDays(30),
-                    EndDate = DateTime.UtcNow.AddDays(32),
-                    VenueName = "Tech Convention Center",
-                    TotalSeats = 1000,
-                    AvailableSeats = 1000,
-                    Price = 99.99M,
-                    CreatedAt = DateTime.UtcNow,
+                    Title = "Summer Jazz Festival",
+                    Description = "Experience three magical evenings of world-class jazz performances under the stars. Featuring Grammy-winning artists, local talents, and fusion bands. Food vendors and wine tasting included.",
+                    StartDate = DateTime.Parse("2024-07-20T17:00:00").ToUniversalTime(),
+                    EndDate = DateTime.Parse("2024-07-22T23:00:00").ToUniversalTime(),
+                    VenueName = "Riverside Amphitheater",
+                    TotalSeats = 2000,
+                    AvailableSeats = 856,
+                    Price = 175.00M,
+                    CreatedAt = DateTime.Parse("2024-01-20T10:30:00").ToUniversalTime(),
+                    CreatedBy = createdBy
+                },
+                new Event
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "AI & Machine Learning Workshop",
+                    Description = "Practical workshop on implementing AI solutions. Topics include deep learning, neural networks, and real-world applications. Includes hands-on sessions with industry-standard tools and take-home projects.",
+                    StartDate = DateTime.Parse("2024-05-10T08:30:00").ToUniversalTime(),
+                    EndDate = DateTime.Parse("2024-05-10T16:30:00").ToUniversalTime(),
+                    VenueName = "Digital Learning Hub",
+                    TotalSeats = 100,
+                    AvailableSeats = 12,
+                    Price = 349.99M,
+                    CreatedAt = DateTime.Parse("2024-01-25T14:20:00").ToUniversalTime(),
+                    CreatedBy = createdBy
+                },
+                new Event
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Startup Networking Breakfast",
+                    Description = "Monthly breakfast meetup for startup founders, investors, and tech entrepreneurs. Features lightning talks, pitch practice, and structured networking sessions.",
+                    StartDate = DateTime.Parse("2024-04-05T07:30:00").ToUniversalTime(),
+                    EndDate = DateTime.Parse("2024-04-05T10:00:00").ToUniversalTime(),
+                    VenueName = "Innovation Lounge",
+                    TotalSeats = 75,
+                    AvailableSeats = 25,
+                    Price = 45.00M,
+                    CreatedAt = DateTime.Parse("2024-01-28T09:15:00").ToUniversalTime(),
+                    CreatedBy = createdBy
+                },
+                new Event
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Digital Marketing Masterclass",
+                    Description = "Comprehensive one-day course covering SEO, social media marketing, content strategy, and analytics. Learn from successful campaign managers and digital marketing experts.",
+                    StartDate = DateTime.Parse("2024-05-25T09:00:00").ToUniversalTime(),
+                    EndDate = DateTime.Parse("2024-05-25T17:00:00").ToUniversalTime(),
+                    VenueName = "Business Center Downtown",
+                    TotalSeats = 150,
+                    AvailableSeats = 83,
+                    Price = 299.99M,
+                    CreatedAt = DateTime.Parse("2024-02-01T11:00:00").ToUniversalTime(),
+                    CreatedBy = createdBy
+                },
+                new Event
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Cybersecurity Conference 2024",
+                    Description = "Annual cybersecurity conference featuring keynotes from leading security experts, workshops on threat detection, and the latest in security technologies. Includes certification preparation tracks.",
+                    StartDate = DateTime.Parse("2024-08-15T08:00:00").ToUniversalTime(),
+                    EndDate = DateTime.Parse("2024-08-17T18:00:00").ToUniversalTime(),
+                    VenueName = "Metropolitan Convention Center",
+                    TotalSeats = 800,
+                    AvailableSeats = 342,
+                    Price = 899.99M,
+                    CreatedAt = DateTime.Parse("2024-02-05T13:45:00").ToUniversalTime(),
+                    CreatedBy = createdBy
+                },
+                new Event
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Product Management Bootcamp",
+                    Description = "Intensive three-day bootcamp for aspiring and junior product managers. Learn product strategy, user research, roadmap planning, and agile methodologies through real-world case studies.",
+                    StartDate = DateTime.Parse("2024-06-03T09:00:00").ToUniversalTime(),
+                    EndDate = DateTime.Parse("2024-06-05T17:00:00").ToUniversalTime(),
+                    VenueName = "Product Innovation Campus",
+                    TotalSeats = 120,
+                    AvailableSeats = 47,
+                    Price = 1299.99M,
+                    CreatedAt = DateTime.Parse("2024-02-10T15:30:00").ToUniversalTime(),
                     CreatedBy = createdBy
                 }
             };

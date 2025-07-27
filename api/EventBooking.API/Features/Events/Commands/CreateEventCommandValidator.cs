@@ -1,5 +1,4 @@
 using FluentValidation;
-using EventBooking.API.Models;
 
 namespace EventBooking.API.Features.Events.Commands;
 

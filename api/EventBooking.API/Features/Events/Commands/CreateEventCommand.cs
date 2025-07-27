@@ -1,6 +1,6 @@
-using MediatR;
-using EventBooking.API.Models;
 using EventBooking.API.Interfaces;
+using EventBooking.API.Models;
+using MediatR;
 
 namespace EventBooking.API.Features.Events.Commands;
 

@@ -29,16 +29,16 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
-        
+
         // Ensure database is created
         context.Database.EnsureCreated();
-        
+
         // Apply any pending migrations
         if (context.Database.GetPendingMigrations().Any())
         {
             context.Database.Migrate();
         }
-        
+
         // Seed data
         await DataSeeder.SeedData(context);
     }
