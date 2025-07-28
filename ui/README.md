@@ -27,7 +27,7 @@ For PowerShell:
 ```powershell
 docker run --detach `
     --publish 80:80 `
-    --env VITE_API_URL=https://localhost:5000 `
+    --env VITE_API_URL=http://localhost:5000 `
     event-management-ui
 ```
 
@@ -35,7 +35,7 @@ For Command Prompt (CMD):
 ```cmd
 docker run -d ^
     -p 80:80 ^
-    -e VITE_API_URL=https://localhost:5000 ^
+    -e VITE_API_URL=http://localhost:5000 ^
     event-management-ui
 ```
 
@@ -43,13 +43,13 @@ For Linux/Mac Terminal:
 ```bash
 docker run -d \
     -p 80:80 \
-    -e VITE_API_URL=https://localhost:5000 \
+    -e VITE_API_URL=http://localhost:5000 \
     event-management-ui
 ```
 
 ### Environment Variables
 
-- `VITE_API_URL`: Base URL for the backend API (default: https://localhost:5000)
+- `VITE_API_URL`: Base URL for the backend API (default: http://localhost:5000)
 
 ### Access the Application
 
