@@ -46,7 +46,7 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<ApplicationDbContext>();
 
         // Ensure database is created
-        context.Database.EnsureCreated();
+        //context.Database.EnsureCreated();
 
         // Apply any pending migrations
         if (context.Database.GetPendingMigrations().Any())
