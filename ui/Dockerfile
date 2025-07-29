@@ -1,6 +1,11 @@
 # build stage
 FROM node:lts-alpine AS builder
 WORKDIR /app
+
+# Add build arguments
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 COPY package*.json ./
 RUN npm ci
 COPY . .
