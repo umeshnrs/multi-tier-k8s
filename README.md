@@ -86,6 +86,15 @@ helm install api ./charts/api -n event-system
 helm install ui ./charts/ui -n event-system
 ```
 
+#### Start All Components at Once
+
+```bash
+# Deploy all components in the correct order
+helm install postgres ./charts/postgres -n event-system && \
+helm install api ./charts/api -n event-system && \
+helm install ui ./charts/ui -n event-system
+```
+
 #### Verify Deployment
 
 ```bash
