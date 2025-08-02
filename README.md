@@ -50,72 +50,120 @@ docker-compose down
 
 ### 2. Kubernetes Deployment with Helm
 
-The application is now structured as three separate Helm charts for better modularity and independent deployment:
+The application is structured as three separate Helm charts for better modularity and independent deployment:
 - PostgreSQL database (`charts/postgres`)
 - Backend API (`charts/api`)
 - Frontend UI (`charts/ui`)
 
-#### Namespace Setup
+#### Initial Setup
+
 ```bash
-# Create the event-system namespace
+# Create namespace
 kubectl create namespace event-system
 
-# Optional: Set as default namespace for current context
+# Optional: Set as default namespace
 kubectl config set-context --current --namespace=event-system
 
-# Verify namespace
-kubectl get namespace event-system
+# Install Ingress Controller
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
+
+# Create database credentials
+kubectl create secret generic db-credentials --namespace event-system --from-literal=password=local
 ```
 
-#### Create Common Database Secret
+#### Deploy Application
+
 ```bash
-# Create a common database credentials secret
-kubectl create secret generic db-credentials --namespace event-system  --from-literal=password=local
-
-# Verify the secret was created
-kubectl get secret db-credentials -n event-system
-```
-
-This secret will be used by both PostgreSQL and API services for database authentication.
-
-#### Deploy PostgreSQL
-```bash
-# Install PostgreSQL chart
+# Deploy PostgreSQL
 helm install postgres ./charts/postgres -n event-system
 
-# Verify PostgreSQL deployment
-kubectl get pods postgres-0 -n event-system
-kubectl logs postgres-0
+# Deploy API
+helm install api ./charts/api -n event-system
 
-kubectl get pvc
+# Deploy UI
+helm install ui ./charts/ui -n event-system
 ```
 
-#### Deploy API
-```bash
-# Install API chart with PostgreSQL reference
-helm install api ./charts/api -n event-system 
+#### Verify Deployment
 
-# Verify API deployment and configuration
-kubectl get pods -l app=api
-kubectl get configmap
-kubectl exec -it $(kubectl get pod -l app=api -o name) -- env | grep DB_
+```bash
+# Check all pods
+kubectl get pods -n event-system
+
+# Check services
+kubectl get svc -n event-system
+
+# Check ingress
+kubectl get ingress -n event-system
+
+# View application logs
+kubectl logs -n event-system -l app=api
+kubectl logs -n event-system -l app=ui
 ```
 
-The API deployment:
-- Uses ConfigMap from Postgres for database configuration
-- Builds connection string using environment variables
-- References Postgres secret for database password
-- Exposes both HTTP (5000) and HTTPS (5001) ports
+#### Access the Application
 
-#### Deploy UI
+The application will be available at:
+- UI: http://localhost/
+- API: http://localhost/api/events
+
+#### Upgrade Components
+
 ```bash
+# Upgrade PostgreSQL
+helm upgrade postgres ./charts/postgres -n event-system
 
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx  -n ingress-nginx
-helm install ingress-nginx ingress-nginx/ingress-nginx -n event-system
+# Upgrade API
+helm upgrade api ./charts/api -n event-system
 
-helm uninstall ingress-nginx -n event-system
+# Upgrade UI
+helm upgrade ui ./charts/ui -n event-system
+```
+
+#### Shutdown and Cleanup
+
+```bash
+# Delete all application components
+helm uninstall ui -n event-system
+helm uninstall api -n event-system
+helm uninstall postgres -n event-system
+
+# Delete ingress controller
 helm uninstall ingress-nginx -n ingress-nginx
 
-# Install UI chart
-helm install ui ./charts/ui -n event-system
+# Delete namespace (this will delete everything in it)
+kubectl delete namespace event-system
+kubectl delete namespace ingress-nginx
+
+# Optional: Remove persistent volumes
+kubectl delete pv --all
+```
+
+### Troubleshooting
+
+1. Check pod status:
+```bash
+kubectl get pods -n event-system
+kubectl describe pod <pod-name> -n event-system
+```
+
+2. View logs:
+```bash
+kubectl logs -n event-system -l app=api
+kubectl logs -n event-system -l app=ui
+kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+```
+
+3. Check ingress:
+```bash
+kubectl get ingress -n event-system
+kubectl describe ingress ui-ingress -n event-system
+```
+
+4. Port forward for direct access:
+```bash
+kubectl port-forward -n event-system svc/api 5000:5000
+kubectl port-forward -n event-system svc/ui 8080:80
 ```
