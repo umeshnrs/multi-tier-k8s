@@ -9,7 +9,7 @@ postgres:
     size: 1Gi
   service:
     port: 5432  # Internal port
-    nodePort: 5433  # External port
+    nodePort: 5432  # External port
   resources:
     requests:
       memory: "256Mi"
@@ -23,8 +23,8 @@ api:
   replicas: 1
   service:
     type: ClusterIP
-    port: 6000  # HTTP port
-    httpsPort: 6001  # HTTPS port
+    port: 5000  # HTTP port
+    httpsPort: 5001  # HTTPS port
   resources:
     requests:
       memory: "256Mi"
@@ -74,7 +74,7 @@ ingress:
         - path: /api
           pathType: Prefix
           service: api
-          port: 6000
+          port: 5000
         - path: /
           pathType: Prefix
           service: ui
