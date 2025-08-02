@@ -8,3 +8,4 @@ data:
   POSTGRES_DB: {{ .Values.database.name | quote }}
   POSTGRES_USER: {{ .Values.database.user | quote }}
   POSTGRES_PORT: {{ .Values.service.port | quote }}
+  POSTGRES_HOST: {{ .Values.service.name | quote }}

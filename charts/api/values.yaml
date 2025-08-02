@@ -1,4 +1,4 @@
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: umesh3149044/api
@@ -25,10 +25,3 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
-
-# Postgres reference configuration
-postgres:
-  host: postgres
-  port: 5432
-  database: eventbooking
-  user: postgres
