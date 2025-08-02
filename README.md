@@ -22,43 +22,157 @@ docker-compose ps
 docker-compose down
 ```
 
+#### Docker Compose Troubleshooting
+
+1. Service Startup Issues
+   - Verify Docker Desktop is running
+   - Check if required ports are available:
+     * API: 5000
+     * UI: 5173
+     * PostgreSQL: 5432
+   - Run `docker-compose ps` to check service status
+   - View logs with `docker-compose logs <service-name>`
+
+2. Database Issues
+   - Check PostgreSQL container status: `docker-compose ps postgres`
+   - View database logs: `docker-compose logs postgres`
+   - Verify database connection string in `appsettings.json`
+   - Try recreating the volume: 
+     ```bash
+     docker-compose down -v
+     docker-compose up -d
+     ```
+
+3. Network Issues
+   - Check if services are on the same network: `docker network ls`
+   - Inspect network: `docker network inspect multi-tier-k8s_default`
+   - Verify service names match in docker-compose.yml
+
 ### 2. Kubernetes Deployment with Helm
 
-```bash
-# Deploy with Helm (in default namespace)
-helm install multi-tier ./helm -n default
+The application is structured as three separate Helm charts for better modularity and independent deployment:
+- PostgreSQL database (`charts/postgres`)
+- Backend API (`charts/api`)
+- Frontend UI (`charts/ui`)
 
-# Verify deployment
-kubectl get pods
-kubectl get services
-
-# Access the application
-# Add to hosts file: 127.0.0.1 multi-tier.local
-# Access at: http://multi-tier.local
-
-# Uninstall
-helm uninstall multi-tier
-```
-
-### 3. Common Commands
+#### Initial Setup
 
 ```bash
-# View logs
-kubectl logs -f deployment/api
-kubectl logs -f deployment/ui
+# Create namespace
+kubectl create namespace event-system
 
-# Restart deployments
-kubectl rollout restart deployment/api
-kubectl rollout restart deployment/ui
+# Optional: Set as default namespace
+kubectl config set-context --current --namespace=event-system
 
-# Clean up
-helm uninstall multi-tier -n default
-docker-compose down -v
+# Install Ingress Controller
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
+
+# Create database credentials
+kubectl create secret generic db-credentials --namespace event-system --from-literal=password=local
 ```
 
-## Troubleshooting
+#### Deploy Application
 
-- If services don't start, check Docker Desktop is running with Kubernetes enabled
-- For CORS issues, verify ingress configuration in helm/values.yaml
-- For database connection issues, check PostgreSQL service is running
-- For port conflicts, ensure ports 5000 (API) and 5173 (UI) are available
+```bash
+# Deploy PostgreSQL
+helm install postgres ./charts/postgres -n event-system
+
+# Deploy API
+helm install api ./charts/api -n event-system
+
+# Deploy UI
+helm install ui ./charts/ui -n event-system
+```
+
+#### Start All Components at Once
+
+```bash
+# Deploy all components in the correct order
+helm install postgres ./charts/postgres -n event-system && \
+helm install api ./charts/api -n event-system && \
+helm install ui ./charts/ui -n event-system
+```
+
+#### Verify Deployment
+
+```bash
+# Check all pods
+kubectl get pods -n event-system
+
+# Check services
+kubectl get svc -n event-system
+
+# Check ingress
+kubectl get ingress -n event-system
+
+# View application logs
+kubectl logs -n event-system -l app=api
+kubectl logs -n event-system -l app=ui
+```
+
+#### Access the Application
+
+The application will be available at:
+- UI: http://localhost/
+- API: http://localhost/api/events
+
+#### Upgrade Components
+
+```bash
+# Upgrade PostgreSQL
+helm upgrade postgres ./charts/postgres -n event-system
+
+# Upgrade API
+helm upgrade api ./charts/api -n event-system
+
+# Upgrade UI
+helm upgrade ui ./charts/ui -n event-system
+```
+
+#### Shutdown and Cleanup
+
+```bash
+# Delete all application components
+helm uninstall ui -n event-system
+helm uninstall api -n event-system
+helm uninstall postgres -n event-system
+
+# Delete ingress controller
+helm uninstall ingress-nginx -n ingress-nginx
+
+# Delete namespace (this will delete everything in it)
+kubectl delete namespace event-system
+kubectl delete namespace ingress-nginx
+
+# Optional: Remove persistent volumes
+kubectl delete pv --all
+```
+
+### Troubleshooting
+
+1. Check pod status:
+```bash
+kubectl get pods -n event-system
+kubectl describe pod <pod-name> -n event-system
+```
+
+2. View logs:
+```bash
+kubectl logs -n event-system -l app=api
+kubectl logs -n event-system -l app=ui
+kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+```
+
+3. Check ingress:
+```bash
+kubectl get ingress -n event-system
+kubectl describe ingress ui-ingress -n event-system
+```
+
+4. Port forward for direct access:
+```bash
+kubectl port-forward -n event-system svc/api 5000:5000
+kubectl port-forward -n event-system svc/ui 8080:80
+```

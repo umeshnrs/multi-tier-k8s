@@ -1,0 +1,26 @@
+replicaCount: 2
+
+image:
+  repository: umesh3149044/api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  ports:
+    http: 5000
+  name: api
+
+# API specific configuration
+config:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: "http://*:5000"  # Only use HTTP
+  AllowedOrigins__0: "http://localhost"  # Match ingress host
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi

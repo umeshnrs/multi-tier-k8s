@@ -1,0 +1,8 @@
+apiVersion: v2
+name: ui
+description: Event Booking UI
+version: 0.1.0
+type: application
+maintainers:
+  - name: Umesh
+    email: umesh.gupta@nagarro.com

@@ -1,0 +1,32 @@
+image:
+  repository: postgres
+  tag: 15.3-alpine
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5432
+  name: postgres
+
+persistence:
+  enabled: true
+  storageClass: ""
+  size: 0.5Gi
+
+database:
+  name: eventbooking
+  user: postgres
+  secret:
+    name: db-credentials
+    passwordKey: password
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+securityContext:
+  fsGroup: 999

@@ -1,0 +1,8 @@
+apiVersion: v2
+name: api
+description: Event Booking API service
+version: 0.1.0
+type: application
+maintainers:
+  - name: Umesh
+    email: umesh.gupta@nagarro.com
