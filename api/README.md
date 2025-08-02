@@ -62,7 +62,7 @@ The application can be configured either through appsettings.json or environment
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=eventbooking;Username=postgres;Password=local"
+    "DefaultConnection": "Host=<DB_HOST>;Port=<DB_PORT>;Database=<DB_NAME>;Username=<DB_USER>;Password=<DB_PASSWORD>"
   },
   "AllowedOrigins": [
     "http://localhost:5173",
@@ -73,19 +73,15 @@ The application can be configured either through appsettings.json or environment
 
 #### Using Environment Variables:
 ```bash
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=eventbooking
-DB_USER=postgres
-DB_PASSWORD=local
-
-# CORS Configuration
-ALLOWED_ORIGINS=http://localhost:5173,http://localhost
-
 # ASP.NET Core Configuration
 ASPNETCORE_ENVIRONMENT=Development
-ASPNETCORE_URLS=https://+:5000;http://+:5001
+ASPNETCORE_URLS=http://*:5000;https://*:5001
+
+# Database Configuration
+ConnectionStrings__DefaultConnection=Host=<your-db-host>;Port=<your-db-port>;Database=<your-db-name>;Username=<your-db-user>;Password=<your-db-password>
+
+# CORS Configuration
+AllowedOrigins__0=http://localhost:5173,http://localhost:80
 ```
 
 ### Database Setup
@@ -112,187 +108,18 @@ ASPNETCORE_URLS=https://+:5000;http://+:5001
    dotnet run
    ```
 
-3. Access the API:
-   - Swagger UI: https://localhost:5000/swagger/index.html
-   - API Base URL: https://localhost:5000/api
+### API Endpoints
 
-### Running with Docker
+When running, the API is accessible at:
+- Swagger UI: https://localhost:5000/swagger/index.html
+- API Base URL: https://localhost:5000/api
+- HTTP API Base URL: http://localhost:5001/api
 
-1. Build the Docker image:
-   ```bash
-   # From the api directory
-   docker build -t eventbooking-api -f EventBooking.API/Dockerfile .
-   ```
+### Configuration
 
-2. Run with Docker:
+The application can be configured using environment variables or appsettings.json. See the root README.md for deployment instructions.
 
-   For Windows (Docker Desktop):
-   ```bash
-   docker run -d \
-     --name eventbooking-api \
-     --add-host=host.docker.internal:host-gateway \
-     -p 5000:5000 \
-     -p 5001:5001 \
-     -e ASPNETCORE_ENVIRONMENT=Development \
-     -e DB_HOST=host.docker.internal \
-     -e DB_PORT=5432 \
-     -e DB_NAME=eventbooking \
-     -e DB_USER=postgres \
-     -e DB_PASSWORD=local \
-     eventbooking-api
-   ```
 
-   For Linux:
-   ```bash
-   # Option 1: Using host network (recommended)
-   docker run -d \
-     --name eventbooking-api \
-     --network=host \
-     -e ASPNETCORE_ENVIRONMENT=Development \
-     -e DB_HOST=localhost \
-     -e DB_PORT=5432 \
-     -e DB_NAME=eventbooking \
-     -e DB_USER=postgres \
-     -e DB_PASSWORD=local \
-     eventbooking-api
-
-   # Option 2: Using host IP address
-   docker run -d \
-     --name eventbooking-api \
-     -p 5000:5000 \
-     -p 5001:5001 \
-     -e ASPNETCORE_ENVIRONMENT=Development \
-     -e DB_HOST=172.17.0.1 \
-     -e DB_PORT=5432 \
-     -e DB_NAME=eventbooking \
-     -e DB_USER=postgres \
-     -e DB_PASSWORD=local \
-     eventbooking-api
-   ```
-
-   Notes: 
-   - For Windows (Docker Desktop): 
-     - Use `host.docker.internal` with `--add-host=host.docker.internal:host-gateway` flag
-     - This allows the container to resolve the host machine's address
-   - For Linux: 
-     - Either use `--network=host` (recommended) or the host's IP address
-     - Default docker0 bridge is usually 172.17.0.1
-   - Make sure PostgreSQL is configured to accept connections from Docker:
-     1. Update postgresql.conf:
-        ```
-        listen_addresses = '*'
-        ```
-     2. Update pg_hba.conf to allow Docker subnet:
-        ```
-        host    all             all             172.17.0.0/16           md5
-        host    all             all             host.docker.internal    md5
-        ```
-
-3. Verify the connection:
-   ```bash
-   # Check container logs
-   docker logs eventbooking-api
-   ```
-
-   If you see migration and seeding messages without errors, the connection is successful.
-
-4. Access the API:
-   - Swagger UI: https://localhost:5000/swagger/index.html
-   - API Base URL: https://localhost:5000/api
-   - HTTP API Base URL: http://localhost:5001/api
-
-### Environment Variables
-
-The application supports the following environment variables:
-
-#### Database Configuration
-- `DB_HOST` - PostgreSQL host (default: localhost)
-- `DB_PORT` - PostgreSQL port (default: 5432)
-- `DB_NAME` - Database name (default: eventbooking)
-- `DB_USER` - Database username (default: postgres)
-- `DB_PASSWORD` - Database password
-
-#### CORS Configuration
-- `ALLOWED_ORIGINS` - Comma-separated list of allowed origins for CORS
-
-#### ASP.NET Core Configuration
-- `ASPNETCORE_ENVIRONMENT` - Runtime environment (Development/Staging/Production)
-- `ASPNETCORE_URLS` - URLs to listen on (default: https://+:5000;http://+:5001)
-- `ASPNETCORE_Kestrel__Certificates__Default__Path` - Path to SSL certificate
-- `ASPNETCORE_Kestrel__Certificates__Default__Password` - SSL certificate password
-
-### Docker Features
-
-The Docker setup includes:
-
-1. Multi-stage build for optimized image size
-2. Automatic test execution during build
-3. Built-in HTTPS certificate handling
-4. Non-root user for security
-5. Environment variable support
-6. PostgreSQL connection via localhost
-
-### HTTPS Certificate Handling
-
-The Dockerfile automatically handles HTTPS certificate creation and configuration:
-
-1. Development certificate is created during build
-2. Certificate is stored in `/app/cert/cert.pfx`
-3. Certificate path is configured via environment variable
-4. Non-root user has appropriate permissions
-
-For production deployments:
-
-1. Mount your production certificate:
-   ```bash
-   docker run -d \
-     --name eventbooking-api \
-     -p 5000:5000 \
-     -p 5001:5001 \
-     -v /path/to/your/cert:/app/cert/prod-cert.pfx \
-     -e ASPNETCORE_Kestrel__Certificates__Default__Path=/app/cert/prod-cert.pfx \
-     -e ASPNETCORE_Kestrel__Certificates__Default__Password=your_cert_password \
-     --env-file .env \
-     eventbooking-api
-   ```
-
-2. Or use a certificate from a secret store:
-   ```bash
-   docker run -d \
-     --name eventbooking-api \
-     -p 5000:5000 \
-     -p 5001:5001 \
-     --secret ssl-cert \
-     -e ASPNETCORE_Kestrel__Certificates__Default__Path=/run/secrets/ssl-cert \
-     -e ASPNETCORE_Kestrel__Certificates__Default__Password=your_cert_password \
-     --env-file .env \
-     eventbooking-api
-   ```
-
-Note: For production, always use proper SSL certificates from a trusted certificate authority.
-
-### Development HTTPS Certificate Setup
-
-For development, you'll need to create and trust a development certificate:
-
-1. Create a development certificate:
-   ```bash
-   dotnet dev-certs https -ep ${HOME}/.aspnet/https/dev-cert.pfx -p your_cert_password
-   dotnet dev-certs https --trust
-   ```
-
-2. Mount the certificate when running Docker:
-   ```bash
-   docker run -d \
-     --name eventbooking-api \
-     -p 5000:5000 \
-     -p 80:80 \
-     -v ${HOME}/.aspnet/https:/app/cert \
-     --env-file .env \
-     eventbooking-api
-   ```
-
-Note: For production, you should use a proper SSL certificate from a trusted certificate authority.
 
 ## Testing
 
