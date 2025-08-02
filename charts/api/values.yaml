@@ -1,0 +1,34 @@
+replicaCount: 1
+
+image:
+  repository: umesh3149044/api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  ports:
+    http: 5000
+    https: 5001
+  name: api
+
+# API specific configuration
+config:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: "http://*:5000;https://*:5001"
+  AllowedOrigins__0: "http://localhost:5173,http://localhost:80"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# Postgres reference configuration
+postgres:
+  host: postgres
+  port: 5432
+  database: eventbooking
+  user: postgres

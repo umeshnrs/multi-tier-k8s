@@ -1,0 +1,10 @@
+apiVersion: v2
+name: api
+description: Backend API service
+version: 0.1.0
+type: application
+dependencies:
+  - name: postgres
+    version: 0.1.0
+    repository: "file://../postgres"
+    condition: postgres.enabled

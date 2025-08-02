@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.name }}
+    spec:
+      containers:
+      - name: {{ .Values.service.name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.ports.http }}
+          name: http
+        - containerPort: {{ .Values.service.ports.https }}
+          name: https
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "{{ .Values.config.ASPNETCORE_ENVIRONMENT }}"
+        - name: ASPNETCORE_URLS
+          value: "{{ .Values.config.ASPNETCORE_URLS }}"
+        - name: AllowedOrigins__0
+          value: "{{ .Values.config.AllowedOrigins__0 }}"
+        - name: DB_HOST
+          value: "{{ .Values.postgres.host }}"
+        - name: DB_PORT
+          value: "{{ .Values.postgres.port }}"
+        - name: DB_NAME
+          value: "{{ .Values.postgres.database }}"
+        - name: DB_USER
+          value: "{{ .Values.postgres.user }}"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name:  db-credentials
+              key: password
+        - name: ConnectionStrings__DefaultConnection
+          value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USER);Password=$(DB_PASSWORD)"
+        resources:
+{{ toYaml .Values.resources | indent 10 }}

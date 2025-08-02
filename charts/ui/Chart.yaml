@@ -1,0 +1,10 @@
+apiVersion: v2
+name: ui
+description: Frontend UI application
+version: 0.1.0
+type: application
+dependencies:
+  - name: api
+    version: 0.1.0
+    repository: "file://../api"
+    condition: api.enabled

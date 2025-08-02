@@ -1,0 +1,36 @@
+image:
+  repository: your-registry/ui
+  tag: latest
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+# UI specific configuration
+config:
+  apiUrl: "http://api-service"
+  nginxConfig:
+    enabled: true
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+replicaCount: 1
+
+securityContext:
+  fsGroup: 101
+  runAsUser: 101
+  runAsGroup: 101
+
+# API dependency configuration
+api:
+  enabled: false  # Set to true if you want to deploy API as part of this chart
