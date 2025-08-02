@@ -19,8 +19,6 @@ spec:
         ports:
         - containerPort: {{ .Values.service.ports.http }}
           name: http
-        - containerPort: {{ .Values.service.ports.https }}
-          name: https
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "{{ .Values.config.ASPNETCORE_ENVIRONMENT }}"
@@ -51,7 +49,7 @@ spec:
         - name: DB_PASSWORD # value from secret db-credentials
           valueFrom:
             secretKeyRef:
-              name:  db-credentials
+              name: db-credentials
               key: password
         - name: ConnectionStrings__DefaultConnection
           value: "Host=$(DB_HOST);Port=$(DB_PORT);Database=$(DB_NAME);Username=$(DB_USER);Password=$(DB_PASSWORD)"

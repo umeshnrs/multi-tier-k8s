@@ -109,10 +109,13 @@ The API deployment:
 
 #### Deploy UI
 ```bash
-# Install UI chart
-helm install ui ./charts/ui \
-  --namespace event-system \
-  --set config.apiUrl=http://api-service
-```
 
-[Rest of the file remains unchanged...]
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx  -n ingress-nginx
+helm install ingress-nginx ingress-nginx/ingress-nginx -n event-system
+
+helm uninstall ingress-nginx -n event-system
+helm uninstall ingress-nginx -n ingress-nginx
+
+# Install UI chart
+helm install ui ./charts/ui -n event-system
+```
