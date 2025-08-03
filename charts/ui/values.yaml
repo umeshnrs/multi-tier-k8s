@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: umesh3149044/ui
-  tag: latest
+  tag: v1.0.0
   pullPolicy: IfNotPresent
 
 service:

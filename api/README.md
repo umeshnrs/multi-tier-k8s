@@ -108,6 +108,26 @@ AllowedOrigins__0=http://localhost:5173,http://localhost:80
    dotnet run
    ```
 
+### Docker Build and Deploy
+
+1. Build the Docker image:
+   ```bash
+   # From the api directory
+   docker build -t umesh3149044/api:latest -f EventBooking.API/Dockerfile .
+
+   # Optionally tag with specific version
+   docker tag umesh3149044/api:latest umesh3149044/api:v1.0.0
+   ```
+
+2. Push to Docker Hub:
+   ```bash
+   # Push latest version
+   docker push umesh3149044/api:latest
+
+   # Push specific version (if tagged)
+   docker push umesh3149044/api:v1.0.0
+   ```
+
 ### API Endpoints
 
 When running, the API is accessible at:
