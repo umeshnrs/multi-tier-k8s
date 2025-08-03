@@ -127,6 +127,14 @@ docker-compose ps
    helm install ui ./charts/ui -n multi-tier-k8s
    ```
 
+4. **Upgrade Application Components**
+   ```bash
+   # Update to a new version[any component]
+   helm upgrade postgres ./charts/postgres -n multi-tier-k8s
+   helm upgrade api ./charts/api -n multi-tier-k8s
+   helm upgrade ui ./charts/ui -n multi-tier-k8s
+   ```
+
 ### Verification Steps
 
 1. **Check Deployment Status**

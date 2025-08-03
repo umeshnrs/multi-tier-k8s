@@ -14,68 +14,25 @@ npm run dev
 
 ## Docker Deployment
 
-### Build the Docker Image
+### Docker Build and Deploy
 
-```bash
-# Build the image
-docker build -t event-management-ui .
-```
+1. Build the Docker image:
+   ```bash
+   # From the ui directory
+   docker build -t umesh3149044/ui:latest .
 
-### Run the Container
+   # Optionally tag with specific version
+   docker tag umesh3149044/ui:latest umesh3149044/ui:v1.0.0
+   ```
 
-For PowerShell:
-```powershell
-docker run --detach `
-    --publish 80:80 `
-    --env VITE_API_URL=http://localhost:5000 `
-    event-management-ui
-```
+2. Push to Docker Hub:
+   ```bash
+   # Push latest version
+   docker push umesh3149044/ui:latest
 
-For Command Prompt (CMD):
-```cmd
-docker run -d ^
-    -p 80:80 ^
-    -e VITE_API_URL=http://localhost:5000 ^
-    event-management-ui
-```
-
-For Linux/Mac Terminal:
-```bash
-docker run -d \
-    -p 80:80 \
-    -e VITE_API_URL=http://localhost:5000 \
-    event-management-ui
-```
-
-### Environment Variables
-
-- `VITE_API_URL`: Base URL for the backend API (default: http://localhost:5000)
-
-### Access the Application
-
-Once running, access the application at:
-```
-http://localhost:80
-```
-
-### Troubleshooting
-
-If you encounter issues with the environment variables not being set in Windows environments:
-
-1. Ensure the `env.sh` script has Unix line endings (LF instead of CRLF)
-2. The Dockerfile includes `dos2unix` to handle line ending conversions
-3. The script permissions are set correctly with `chmod +x`
-
-You can verify the container is running with:
-```bash
-docker ps
-```
-
-Expected output should show the container running with port 80 mapped:
-```
-CONTAINER ID   IMAGE               PORTS                               NAMES
-fe0ce4d724ab   event-management-ui   0.0.0.0:80->80/tcp                event-management
-```
+   # Push specific version (if tagged)
+   docker push umesh3149044/ui:v1.0.0
+   ```
 
 ## Learn More
 
