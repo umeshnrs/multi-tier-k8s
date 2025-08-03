@@ -27,6 +27,10 @@ const stats = computed(() => {
     { 
       name: 'Available Seats', 
       value: events.value.reduce((sum, event) => sum + event.availableSeats, 0).toString()
+    },
+    {
+      name: 'Total Seats',
+      value: events.value.reduce((sum, event) => sum + event.totalSeats, 0).toString()
     }
   ]
 })
