@@ -116,7 +116,7 @@ AllowedOrigins__0=http://localhost:5173,http://localhost:80
    docker build -t umesh3149044/api:latest -f EventBooking.API/Dockerfile .
 
    # Optionally tag with specific version
-   docker tag umesh3149044/api:latest umesh3149044/api:v1.0.0
+   docker tag umesh3149044/api:latest umesh3149044/api:v1.0.1
    ```
 
 2. Push to Docker Hub:
@@ -125,7 +125,7 @@ AllowedOrigins__0=http://localhost:5173,http://localhost:80
    docker push umesh3149044/api:latest
 
    # Push specific version (if tagged)
-   docker push umesh3149044/api:v1.0.0
+   docker push umesh3149044/api:v1.0.1
    ```
 
 ### API Endpoints

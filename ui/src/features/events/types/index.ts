@@ -9,6 +9,7 @@ export interface Event {
   availableSeats: number
   price: number
   createdAt: string
+  apiVersion?: string // Added to demonstrate rolling updates
 }
 
 export type EventFormData = Omit<Event, 'id' | 'createdAt'>

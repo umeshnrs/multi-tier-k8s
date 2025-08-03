@@ -18,7 +18,8 @@ public static class EventMappings
             TotalSeats = @event.TotalSeats,
             AvailableSeats = @event.AvailableSeats,
             Price = @event.Price,
-            CreatedAt = @event.CreatedAt
+            CreatedAt = @event.CreatedAt,
+            ApiVersion = "v2" // Added to demonstrate rolling updates
         };
     }
 }

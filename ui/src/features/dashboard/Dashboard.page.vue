@@ -228,6 +228,12 @@ onMounted(() => {
                       <span>{{ formatDate(event.startDate) }}</span>
                       <span class="mx-2">•</span>
                       <span>{{ formatDate(event.endDate) }}</span>
+                      <span
+                        v-if="event.apiVersion"
+                        class="ml-auto px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium"
+                      >
+                        API {{ event.apiVersion }}
+                      </span>
                     </div>
                   </div>
                 </div>
