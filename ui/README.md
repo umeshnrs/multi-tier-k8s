@@ -22,7 +22,7 @@ npm run dev
    docker build -t umesh3149044/ui:latest .
 
    # Optionally tag with specific version
-   docker tag umesh3149044/ui:latest umesh3149044/ui:v1.0.0
+   docker tag umesh3149044/ui:latest umesh3149044/ui:v1.0.1
    ```
 
 2. Push to Docker Hub:
@@ -31,7 +31,7 @@ npm run dev
    docker push umesh3149044/ui:latest
 
    # Push specific version (if tagged)
-   docker push umesh3149044/ui:v1.0.0
+   docker push umesh3149044/ui:v1.0.1
    ```
 
 ## Learn More

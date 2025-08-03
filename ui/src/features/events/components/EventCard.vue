@@ -91,6 +91,12 @@ const handleDelete = () => {
           <div>
             <span class="font-medium text-gray-700">Ends:</span> {{ formatDate(event.endDate) }}
           </div>
+          <div
+            v-if="event.apiVersion"
+            class="ml-auto px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium"
+          >
+            API {{ event.apiVersion }}
+          </div>
         </div>
       </div>
     </div>

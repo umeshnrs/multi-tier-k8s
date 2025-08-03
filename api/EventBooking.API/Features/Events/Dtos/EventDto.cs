@@ -12,4 +12,5 @@ public record EventDto
     public int AvailableSeats { get; init; }
     public decimal Price { get; init; }
     public DateTime CreatedAt { get; init; }
+    public string ApiVersion { get; init; } = "v2"; // Added to demonstrate rolling updates
 }
