@@ -162,6 +162,27 @@ docker-compose ps
    kubectl get pods -w -l app=postgres -n multi-tier-k8s
    ```
 
+3. **Observe Rolling Updates**
+   ```bash
+   # Watch the rolling update process in real-time
+   kubectl get pods -w -l app=api -n multi-tier-k8s
+
+   # In another terminal, trigger an update (e.g., change image version)
+   helm upgrade api ./charts/api -n multi-tier-k8s --set image.tag=v1.0.1
+
+   # You should see:
+   # 1. New pod being created
+   # 2. Once new pod is ready, old pod terminating
+   # 3. Process repeats until all pods are updated
+   # This ensures zero downtime as only one pod is updated at a time
+   ```
+
+   To verify application availability during updates:
+   ```bash
+   # In another terminal, continuously test the API
+   while true; do curl -s -o /dev/null -w "%{http_code}\n" http://localhost/api/events; sleep 1; done
+   ```
+
 ### Troubleshooting Guide
 
 1. **Pod Issues**
