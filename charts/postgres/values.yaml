@@ -10,8 +10,8 @@ service:
 
 persistence:
   enabled: true
-  storageClass: ""
-  size: 0.5Gi
+  storageClass: "ebs-sc"
+  size: 1Gi  # Minimum size for demo
 
 database:
   name: eventbooking
@@ -30,3 +30,12 @@ resources:
 
 securityContext:
   fsGroup: 999
+
+# Tolerations to run on tainted nodes
+tolerations:
+  - key: "CriticalAddonsOnly"
+    operator: "Exists"
+    effect: "NoSchedule"
+  - key: "karpenter.sh/disrupted"
+    operator: "Exists"
+    effect: "NoSchedule"

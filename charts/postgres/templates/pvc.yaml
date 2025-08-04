@@ -5,12 +5,12 @@ metadata:
   name: {{ .Release.Name }}-{{ .Values.service.name }}-pvc
   labels:
     app: {{ .Values.service.name }}
+  annotations:
+    "helm.sh/resource-policy": keep
 spec:
   accessModes:
     - ReadWriteOnce
-  {{- if .Values.persistence.storageClass }}
-  storageClassName: {{ .Values.persistence.storageClass }}
-  {{- end }}
+  storageClassName: ebs-sc
   resources:
     requests:
       storage: {{ .Values.persistence.size }}

@@ -1,4 +1,4 @@
-replicaCount: 4
+replicaCount: 2
 
 image:
   repository: umesh3149044/api
