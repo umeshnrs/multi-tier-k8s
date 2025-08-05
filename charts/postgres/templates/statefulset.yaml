@@ -34,6 +34,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.database.secret.name }}
                   key: {{ .Values.database.secret.passwordKey }}
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           livenessProbe:
             exec:
               command:

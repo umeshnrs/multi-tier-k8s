@@ -1,5 +1,5 @@
 image:
-  repository: arm64v8/postgres
+  repository: postgres
   tag: 15.3-alpine
   pullPolicy: IfNotPresent
 
