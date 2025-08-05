@@ -5,11 +5,14 @@ metadata:
   name: {{ .Release.Name }}-{{ .Values.service.name }}-pvc
   labels:
     app: {{ .Values.service.name }}
+    environment: {{ .Values.environment | default "Development" }}
 spec:
   accessModes:
     - ReadWriteOnce
-  {{- if .Values.persistence.storageClass }}
-  storageClassName: {{ .Values.persistence.storageClass }}
+  {{- if .Values.persistence.storageClass.name }}
+  storageClassName: {{ .Values.persistence.storageClass.name }}
+  {{- else }}
+  storageClassName: {{ .Release.Name }}-{{ .Values.service.name }}-sc
   {{- end }}
   resources:
     requests:

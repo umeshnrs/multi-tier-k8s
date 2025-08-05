@@ -1,5 +1,5 @@
 image:
-  repository: postgres
+  repository: arm64v8/postgres
   tag: 15.3-alpine
   pullPolicy: IfNotPresent
 
@@ -10,8 +10,21 @@ service:
 
 persistence:
   enabled: true
-  storageClass: ""
-  size: 0.5Gi
+  defaultClass: false
+  reclaimPolicy: Delete
+  storageClass:
+    # If empty, will create and use the Release-specific StorageClass
+    name: ""
+    # Using gp3 for better performance/cost ratio
+    type: gp3
+    # Minimum IOPS for gp3
+    iops: "3000"
+    # Minimum throughput for gp3
+    throughput: "125"
+  # Reduced size for demo
+  size: 1Gi
+
+environment: Development
 
 database:
   name: eventbooking
@@ -20,13 +33,14 @@ database:
     name: db-credentials
     passwordKey: password
 
+# Reduced resource limits for demo
 resources:
   requests:
-    cpu: 100m
-    memory: 256Mi
+    cpu: 50m
+    memory: 128Mi
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 200m
+    memory: 256Mi
 
 securityContext:
   fsGroup: 999

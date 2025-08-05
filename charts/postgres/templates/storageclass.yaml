@@ -1,0 +1,32 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.service.name }}-sc
+  annotations:
+    {{- if .Values.persistence.defaultClass }}
+    storageclass.kubernetes.io/is-default-class: "true"
+    {{- end }}
+provisioner: ebs.csi.eks.amazonaws.com
+volumeBindingMode: WaitForFirstConsumer
+allowedTopologies:
+- matchLabelExpressions:
+  - key: topology.kubernetes.io/zone
+    values:
+    - ap-south-1b
+    - ap-south-1c
+parameters:
+  type: {{ .Values.persistence.storageClass.type | default "gp3" }}
+  encrypted: "true"
+  csi.storage.k8s.io/fstype: ext4
+  {{- if .Values.persistence.storageClass.iops }}
+  iops: "{{ .Values.persistence.storageClass.iops }}"
+  {{- end }}
+  {{- if .Values.persistence.storageClass.throughput }}
+  throughput: "{{ .Values.persistence.storageClass.throughput }}"
+  {{- end }}
+
+reclaimPolicy: {{ .Values.persistence.reclaimPolicy | default "Delete" }}
+allowVolumeExpansion: true
+mountOptions:
+  - noatime
+  - nodiratime
