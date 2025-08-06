@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: Arial, sans-serif; font-size: 14px; }
+    .node { fill: #fff; stroke: #000; stroke-width: 2; }
+    .edge { stroke: #000; stroke-width: 2; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+  <g transform="translate(50,50)">
+    <!-- Nodes -->
+    <g class="nodes">
+      <rect class="node" x="300" y="0" width="120" height="40" rx="5"/>
+      <text x="310" y="25">Ingress Controller</text>
+      
+      <rect class="node" x="150" y="100" width="100" height="40" rx="5"/>
+      <text x="160" y="125">UI Service</text>
+      
+      <rect class="node" x="450" y="100" width="100" height="40" rx="5"/>
+      <text x="460" y="125">API Service</text>
+      
+      <rect class="node" x="150" y="200" width="100" height="40" rx="5"/>
+      <text x="160" y="225">UI Pods</text>
+      
+      <rect class="node" x="450" y="200" width="100" height="40" rx="5"/>
+      <text x="460" y="225">API Pods</text>
+      
+      <rect class="node" x="450" y="300" width="120" height="40" rx="5"/>
+      <text x="460" y="325">Database Service</text>
+      
+      <rect class="node" x="450" y="400" width="100" height="40" rx="5"/>
+      <text x="460" y="425">Database Pod</text>
+      
+      <rect class="node" x="150" y="300" width="100" height="40" rx="5"/>
+      <text x="160" y="325">ConfigMaps</text>
+      
+      <rect class="node" x="300" y="300" width="100" height="40" rx="5"/>
+      <text x="310" y="325">Secrets</text>
+    </g>
+    
+    <!-- Edges -->
+    <g class="edges">
+      <path class="edge" d="M360,40 L200,100"/>
+      <path class="edge" d="M360,40 L500,100"/>
+      <path class="edge" d="M200,140 L200,200"/>
+      <path class="edge" d="M500,140 L500,200"/>
+      <path class="edge" d="M500,240 L500,300"/>
+      <path class="edge" d="M500,340 L500,400"/>
+      <path class="edge" d="M200,320 L450,220"/>
+      <path class="edge" d="M200,320 L450,420"/>
+      <path class="edge" d="M350,320 L450,220"/>
+      <path class="edge" d="M350,320 L450,420"/>
+    </g>
+  </g>
+</svg>

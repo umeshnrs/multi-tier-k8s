@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000" height="800" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: Arial, sans-serif; font-size: 14px; }
+    .node { fill: #fff; stroke: #000; stroke-width: 2; }
+    .edge { stroke: #000; stroke-width: 2; marker-end: url(#arrowhead); }
+    .subgraph { fill: none; stroke: #666; stroke-width: 1; stroke-dasharray: 5,5; }
+    .label { font-weight: bold; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+  <g transform="translate(50,50)">
+    <!-- External -->
+    <rect class="subgraph" x="50" y="0" width="300" height="100"/>
+    <text class="label" x="60" y="20">External</text>
+    <rect class="node" x="70" y="40" width="120" height="40" rx="5"/>
+    <text x="80" y="65">External Users</text>
+    <rect class="node" x="220" y="40" width="120" height="40" rx="5"/>
+    <text x="230" y="65">Load Balancer/80,443</text>
+    <path class="edge" d="M190,60 L220,60"/>
+    
+    <!-- Kubernetes Cluster -->
+    <rect class="subgraph" x="50" y="120" width="800" height="600"/>
+    <text class="label" x="60" y="140">Kubernetes Cluster</text>
+    
+    <!-- Ingress -->
+    <rect class="node" x="220" y="180" width="160" height="40" rx="5"/>
+    <text x="230" y="205">Ingress Controller/80,443</text>
+    <path class="edge" d="M280,80 L280,180"/>
+    
+    <!-- Services -->
+    <rect class="subgraph" x="100" y="250" width="700" height="200"/>
+    <text class="label" x="110" y="270">Services</text>
+    
+    <rect class="node" x="120" y="300" width="120" height="40" rx="5"/>
+    <text x="130" y="325">UI Service/80</text>
+    <rect class="node" x="120" y="380" width="120" height="40" rx="5"/>
+    <text x="130" y="405">UI Pods/80</text>
+    
+    <rect class="node" x="350" y="300" width="140" height="40" rx="5"/>
+    <text x="360" y="325">API Service/8080</text>
+    <rect class="node" x="350" y="380" width="140" height="40" rx="5"/>
+    <text x="360" y="405">API Pods/8080</text>
+    
+    <rect class="node" x="600" y="300" width="140" height="40" rx="5"/>
+    <text x="610" y="325">DB Service/5432</text>
+    <rect class="node" x="600" y="380" width="140" height="40" rx="5"/>
+    <text x="610" y="405">DB Pod/5432</text>
+    
+    <!-- Network Policies -->
+    <rect class="subgraph" x="100" y="480" width="700" height="200"/>
+    <text class="label" x="110" y="500">Network Policies</text>
+    
+    <rect class="node" x="120" y="520" width="200" height="60" rx="5"/>
+    <text x="130" y="545">UI Policy</text>
+    <text x="130" y="565">Ingress: 80</text>
+    <text x="130" y="585">Egress: API/8080</text>
+    
+    <rect class="node" x="350" y="520" width="200" height="60" rx="5"/>
+    <text x="360" y="545">API Policy</text>
+    <text x="360" y="565">Ingress: 8080</text>
+    <text x="360" y="585">Egress: DB/5432</text>
+    
+    <rect class="node" x="600" y="520" width="180" height="60" rx="5"/>
+    <text x="610" y="545">DB Policy</text>
+    <text x="610" y="565">Ingress: 5432</text>
+    <text x="610" y="585">Egress: None</text>
+    
+    <!-- Connections -->
+    <path class="edge" d="M280,220 L180,300"/>
+    <path class="edge" d="M280,220 L420,300"/>
+    <path class="edge" d="M180,340 L180,380"/>
+    <path class="edge" d="M420,340 L420,380"/>
+    <path class="edge" d="M490,400 L600,400"/>
+    <path class="edge" d="M670,340 L670,380"/>
+  </g>
+</svg>

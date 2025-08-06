@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000" height="600" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: Arial, sans-serif; font-size: 14px; }
+    .node { fill: #fff; stroke: #000; stroke-width: 2; }
+    .edge { stroke: #000; stroke-width: 2; marker-end: url(#arrowhead); }
+    .subgraph { fill: none; stroke: #666; stroke-width: 1; stroke-dasharray: 5,5; }
+    .label { font-weight: bold; }
+    .db { fill: #f8f8f8; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+  <g transform="translate(50,50)">
+    <!-- Client Side -->
+    <rect class="subgraph" x="0" y="0" width="300" height="200"/>
+    <text class="label" x="10" y="20">Client Side</text>
+    
+    <rect class="node" x="20" y="40" width="120" height="40" rx="5"/>
+    <text x="30" y="65">User Browser</text>
+    
+    <rect class="node" x="20" y="140" width="120" height="40" rx="5"/>
+    <text x="30" y="165">UI Pod</text>
+    
+    <!-- Backend Processing -->
+    <rect class="subgraph" x="320" y="0" width="300" height="200"/>
+    <text class="label" x="330" y="20">Backend Processing</text>
+    
+    <rect class="node" x="340" y="40" width="120" height="40" rx="5"/>
+    <text x="350" y="65">API Pod</text>
+    
+    <rect class="node" x="340" y="140" width="120" height="40" rx="5"/>
+    <text x="350" y="165">Handle Request</text>
+    
+    <!-- Data Storage -->
+    <rect class="subgraph" x="640" y="0" width="300" height="200"/>
+    <text class="label" x="650" y="20">Data Storage</text>
+    
+    <rect class="node" x="660" y="40" width="120" height="40" rx="5"/>
+    <text x="670" y="65">DB Pod</text>
+    
+    <circle class="node db" cx="720" cy="140" r="30"/>
+    <text x="690" y="145">Persistent</text>
+    <text x="690" y="160">Volume</text>
+    
+    <!-- Connections -->
+    <g class="edges">
+      <!-- Client Side flows -->
+      <path class="edge" d="M80,80 L80,140"/>
+      <text x="90" y="110">HTTP/HTTPS</text>
+      
+      <path class="edge" d="M140,160 L340,60"/>
+      <text x="200" y="90">API Requests</text>
+      
+      <!-- Backend Processing flows -->
+      <path class="edge" d="M400,80 L400,140"/>
+      <text x="410" y="110">Process Request</text>
+      
+      <path class="edge" d="M460,160 L660,60"/>
+      <text x="520" y="90">Query/Update</text>
+      
+      <!-- Response flows -->
+      <path class="edge" d="M660,80 L460,160"/>
+      <text x="520" y="140">Result</text>
+      
+      <path class="edge" d="M340,60 L140,160"/>
+      <text x="200" y="140">JSON</text>
+      
+      <path class="edge" d="M80,140 L80,80"/>
+      <text x="90" y="180">Render</text>
+      
+      <!-- Data Storage flows -->
+      <path class="edge" d="M720,80 L720,110"/>
+      <text x="730" y="100">Write</text>
+      
+      <path class="edge" d="M720,110 L720,80"/>
+      <text x="680" y="100">Read</text>
+    </g>
+  </g>
+</svg>
