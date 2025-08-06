@@ -7,7 +7,7 @@ image:
 
 service:
   name: ui
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
 
 # UI specific configuration

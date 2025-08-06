@@ -39,7 +39,7 @@ helm repo update
 helm install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
   --namespace kube-system \
   --set controller.serviceAccount.create=true \
-  --set controller.serviceAccount.annotations."eks\\.amazonaws\\.com/role-arn"=arn:aws:iam::727169793160:role/AmazonEKS_EBS_CSI_DriverRole
+  --set controller.serviceAccount.annotations."eks\\.amazonaws\\.com/role-arn"=arn:aws:iam::<accountid>:role/AmazonEKS_EBS_CSI_DriverRole
 ```
 
 2. **Install NGINX Ingress Controller**
@@ -53,6 +53,9 @@ helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx \
   --create-namespace \
   --set controller.service.type=LoadBalancer
+
+  kubectl describe svc ingress-nginx-controller -n ingress-nginx
+  
 ```
 
 ## Application Deployment

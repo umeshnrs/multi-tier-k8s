@@ -15,7 +15,7 @@ service:
 config:
   ASPNETCORE_ENVIRONMENT: Development
   ASPNETCORE_URLS: "http://*:5000"  # Only use HTTP
-  AllowedOrigins__0: "http://localhost"  # Match ingress host
+  AllowedOrigins__0: "http://localhost,http://a54d18af601a34b5da76123105669221-641622017.ap-south-1.elb.amazonaws.com"  # Match ingress host
 
 resources:
   requests:
