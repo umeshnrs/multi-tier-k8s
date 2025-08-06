@@ -4,6 +4,10 @@ A scalable, multi-tier application demonstrating microservices architecture depl
 
 ## 📌 Quick Links
 
+### Documentation & Resources
+- **DevOps Documentation**: [DEVOPS.md](./DEVOPS.md) - Detailed infrastructure and deployment documentation
+- **Demo Video**: [Watch Demo](https://drive.google.com/file/d/17W6R96Pg9bAPULwBtPOQREKNJkadasF9/view?usp=sharing)
+
 ### Repository & Images
 - **GitHub Repository**: [github.com/umeshnrs/multi-tier-k8s](https://github.com/umeshnrs/multi-tier-k8s)
 - **Docker Images**:
@@ -220,7 +224,8 @@ kubectl delete pv --all
 ```
 
 ## 📝 Notes
-- The demonstration video showing deployment, API functionality, and resilience testing can be found in the repository's releases section
+- **Demo Video**: Check out our [demonstration video](https://drive.google.com/file/d/17W6R96Pg9bAPULwBtPOQREKNJkadasF9/view?usp=sharing) showing deployment, API functionality, and resilience testing
+- **DevOps Documentation**: For detailed infrastructure, deployment architecture, and operational guides, see [DEVOPS.md](./DEVOPS.md)
 - For production deployments, consider implementing:
   - SSL/TLS encryption
   - Regular database backups
